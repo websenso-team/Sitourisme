@@ -1,0 +1,29 @@
+<section data-ng-controller="TouristiccontentController" data-ng-init="find()">
+	<div class="page-header">
+		<h1>Contenus touristiques</h1>
+	</div>
+	<div class="list-group">
+		<a data-ng-repeat="tc in touristiccontent" class="list-group-item"><!--data-ui-sref="products.view({productId: product._id})"//-->
+			<small class="list-group-item-text" data-ngClass="{'alert' : true}">
+				Création : 
+				<span data-ng-bind="tc.created | date:'mediumDate'"></span> - 
+				Dernière MAJ : 
+				<span data-ng-bind="tc.lastUpdate | date:'mediumDate'"></span> - 
+				Membre = 
+				<span data-ng-bind="tc.member"></span> - 
+				Geotrek ID = 
+				<span data-ng-bind="tc.specialId"></span> - 
+				Apidae ID = 
+				<span data-ng-bind="tc.specialIdSitra" data-ng-if='tc.specialIdSitra * 1 == tc.specialIdSitra'></span>
+				<span data-ng-if='tc.specialIdSitra * 1 != tc.specialIdSitra'elseif>Non créé - Erreur</span>
+			</small>
+			<div style="color:white; background-color:red;" data-ng-if='tc.specialIdSitra * 1 != tc.specialIdSitra' data-ng-bind="tc.specialIdSitra"></div>
+			<h4 class="list-group-item-heading" data-ng-bind="tc.name"></h4>
+			<p class="list-group-item-text" data-ng-bind="tc.description"></p>
+			<h5>Geotrek : {{tc.rateCompletion}} / 100</h5>
+		</a>
+	</div>
+	<div class="alert alert-warning text-center" data-ng-if="tc.$resolved && !tc.length">
+		Aucun contenu - Lancer un import
+	</div>
+</section>
