@@ -1,4 +1,5 @@
 ## [2.6.0]
+- Ajouter l'information Animaux interdits si passage zone Coeur de Parc [#126](https://github.com/GeotrekCE/Sitourisme/issues/126)
 - Trek > Synchroniser le champ Matériel dans Prestations > ComplémentAccueil [#128](https://github.com/GeotrekCE/Sitourisme/issues/128)
 - Suppression des fiches APIDAE supprimées dans Geotrek [#54](https://github.com/GeotrekCE/Sitourisme/issues/54)
 - Erreur de synchronisation sur une fiche avec même identifiant dans 2 structures différentes [#132](https://github.com/GeotrekCE/Sitourisme/issues/132)
