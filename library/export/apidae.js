@@ -3529,53 +3529,34 @@ class Apidae
   }
   rootFieldList.push('prestations.conforts');
 
-/* TODO SPECIAL TREK*/
-  if (product.service && product.service.length) {
-    prestation.services = this.buildTypeKeyArray(
-      product.service,
-      null,
-      unwantedTypes,
-      context
-    );
-
-    // Accept animal
-    if (product.service.includes(687)) {
-      prestation.animauxAcceptes = 'ACCEPTES';
-    } else {
-      prestation.animauxAcceptes = 'NON_ACCEPTES';
-    }
-  }
-  rootFieldList.push('prestations.services');
-
   if (product.animauxAcceptes && product.animauxAcceptes === 'NON_ACCEPTES') {
-    prestation.animauxAcceptes = product.animauxAcceptes;
+    prestation.animauxAcceptes = product.animauxAcceptes
   }
-  rootFieldList.push('prestations.animauxAcceptes');
-/* TODO SPECIAL TREK*/
+  rootFieldList.push('prestations.animauxAcceptes')
 
-if (product.complementAccueil === 'reset') {
-  prestation.complementAccueil = {}
-  rootFieldList.push('prestations.complementAccueil')
-} else if (product.complementAccueil && product.complementAccueil.length) {
-  prestation.complementAccueil = {}
-  prestation.complementAccueil.libelleFr = product.complementAccueil
-  if (product.complementAccueilEn && product.complementAccueilEn.length) {
-    prestation.complementAccueil.libelleEn = product.complementAccueilEn;
+  if (product.complementAccueil === 'reset') {
+    prestation.complementAccueil = {}
+    rootFieldList.push('prestations.complementAccueil')
+  } else if (product.complementAccueil && product.complementAccueil.length) {
+    prestation.complementAccueil = {}
+    prestation.complementAccueil.libelleFr = product.complementAccueil
+    if (product.complementAccueilEn && product.complementAccueilEn.length) {
+      prestation.complementAccueil.libelleEn = product.complementAccueilEn;
+    }
+    if (product.complementAccueilEs && product.complementAccueilEs.length) {
+      prestation.complementAccueil.libelleEs = product.complementAccueilEs;
+    }
+    if (product.complementAccueilDe && product.complementAccueilDe.length) {
+      prestation.complementAccueil.libelleDe = product.complementAccueilDe
+    }
+    if (product.complementAccueilNl && product.complementAccueilNl.length) {
+      prestation.complementAccueil.libelleNl = product.complementAccueilNl
+    }
+    if (product.complementAccueilIt && product.complementAccueilIt.length) {
+      prestation.complementAccueil.libelleIt = product.complementAccueilIt
+    }
+    rootFieldList.push('prestations.complementAccueil')
   }
-  if (product.complementAccueilEs && product.complementAccueilEs.length) {
-    prestation.complementAccueil.libelleEs = product.complementAccueilEs;
-  }
-  if (product.complementAccueilDe && product.complementAccueilDe.length) {
-    prestation.complementAccueil.libelleDe = product.complementAccueilDe
-  }
-  if (product.complementAccueilNl && product.complementAccueilNl.length) {
-    prestation.complementAccueil.libelleNl = product.complementAccueilNl
-  }
-  if (product.complementAccueilIt && product.complementAccueilIt.length) {
-    prestation.complementAccueil.libelleIt = product.complementAccueilIt
-  }
-  rootFieldList.push('prestations.complementAccueil')
-}
 
   if (product.adaptedTourism && product.adaptedTourism.length) {
     prestation.tourismesAdaptes = this.buildTypeKeyArray(

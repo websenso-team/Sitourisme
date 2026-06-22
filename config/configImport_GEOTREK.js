@@ -165,6 +165,7 @@ exports.geotrekInstance = {
       4: 589, //Niveau rouge - Difficile
       5: 590, //Niveau noir - Très difficile
     },
+    trek_animaux : 1,
     touristicevent_cat : {
       1: 2080, // Exposition > Exposition
       /*2:null,// not mapped*/
@@ -1624,5 +1625,6 @@ exports.geotrekInstance = {
       2: 'BOUCLE',
       3: 'ALLER_ITINERANCE',
     },
+    trek_animaux : 1,
   },
 };

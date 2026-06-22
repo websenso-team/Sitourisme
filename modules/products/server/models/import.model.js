@@ -106,6 +106,7 @@ class importModel extends geotrek
       complementAccueilDe: this.getComplementAccueil(element, 'de'),
       complementAccueilNl: this.getComplementAccueil(element, 'nl'),
       complementAccueilIt: this.getComplementAccueil(element, 'it'),
+      animauxAcceptes: this.getAnimaux(element, structure, additionalInformation.labels),
     }
   }
   
@@ -433,6 +434,23 @@ getAmbianceLibelle(element, lang) {
       )
     }
     return compAccueilTmp
+  }
+
+  getAnimaux(element, structure, labels) {
+    const trekAnimaux = configImportGEOTREK.geotrekInstance?.[structure]?.trek_animaux
+
+    if (trekAnimaux === undefined || trekAnimaux === null) {
+      return null
+    }
+
+    const hasAnimauxLabel = element?.labels?.some(
+      id => Number(id) === Number(trekAnimaux)
+    )
+
+    return hasAnimauxLabel && labels[trekAnimaux]
+      ? 'NON_ACCEPTES'
+      : null
+    // ACCEPTES
   }
   
 }
