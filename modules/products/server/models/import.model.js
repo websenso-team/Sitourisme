@@ -99,7 +99,13 @@ class importModel extends geotrek
       pdfDe: this.getPdf(element, 'de'),
       pdfNl: this.getPdf(element, 'nl'),
       image: this.getImage(element),
-      complementAccueil: 'reset',
+      /*complementAccueil: 'reset',*/
+      complementAccueil: this.getComplementAccueil(element, 'fr'),
+      complementAccueilEn: this.getComplementAccueil(element, 'en'),
+      complementAccueilEs: this.getComplementAccueil(element, 'es'),
+      complementAccueilDe: this.getComplementAccueil(element, 'de'),
+      complementAccueilNl: this.getComplementAccueil(element, 'nl'),
+      complementAccueilIt: this.getComplementAccueil(element, 'it'),
     }
   }
   
@@ -161,13 +167,13 @@ getAmbianceLibelle(element, lang) {
   getPassagesDelicats(element, lang, labels) {
     let passagesDelicats = null
 
-    if (element.advice && element.advice[lang]) {
+    /*if (element.advice && element.advice[lang]) {
       passagesDelicats = DataString.stripTags(
         DataString.strEncode(
           DataString.br2nl(element.advice[lang])
         )
       ) + '\r\n\r\n'
-    }
+    }*/
 
     if (element.labels && element.labels.length) {
       element.labels.forEach(id => {
@@ -407,6 +413,26 @@ getAmbianceLibelle(element, lang) {
         .valueOf();
     }
     return [];
+  }
+
+  getComplementAccueil(element, lang) {
+    let compAccueilTmp = ''
+    if (element.advice && element.advice[lang]) {
+      compAccueilTmp = DataString.stripTags(
+        DataString.strEncode(
+          DataString.br2nl(element.advice[lang])
+        )
+      )
+    }
+    if (element.gear && element.gear[lang]) {
+      if (compAccueilTmp != '') compAccueilTmp += "\n\n"
+      compAccueilTmp += DataString.stripTags(
+        DataString.strEncode(
+          DataString.br2nl(element.gear[lang])
+        )
+      )
+    }
+    return compAccueilTmp
   }
   
 }

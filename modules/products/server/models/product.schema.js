@@ -2025,6 +2025,26 @@ const _defaultSchema = {
     type: String,
     trim: true
   },
+  complementAccueilEn: {
+    type: String,
+    trim: true
+  },
+  complementAccueilEs: {
+    type: String,
+    trim: true
+  },
+  complementAccueilDe: {
+    type: String,
+    trim: true
+  },
+  complementAccueilNl: {
+    type: String,
+    trim: true
+  },
+  complementAccueilIt: {
+    type: String,
+    trim: true
+  },
 }
 
 exports.defaultSchema = _defaultSchema

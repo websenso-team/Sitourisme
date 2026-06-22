@@ -3562,6 +3562,9 @@ if (product.complementAccueil === 'reset') {
   if (product.complementAccueilEn && product.complementAccueilEn.length) {
     prestation.complementAccueil.libelleEn = product.complementAccueilEn;
   }
+  if (product.complementAccueilEs && product.complementAccueilEs.length) {
+    prestation.complementAccueil.libelleEs = product.complementAccueilEs;
+  }
   if (product.complementAccueilDe && product.complementAccueilDe.length) {
     prestation.complementAccueil.libelleDe = product.complementAccueilDe
   }
