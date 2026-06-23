@@ -1869,9 +1869,13 @@ const _defaultSchema = {
       trim: true
     },
     precisionsBalisage: {
-      type: String,
-      trim: true
-    }
+      fr: { type: String, trim: true },
+      en: { type: String, trim: true },
+      es: { type: String, trim: true },
+      de: { type: String, trim: true },
+      nl: { type: String, trim: true },
+      it: { type: String, trim: true }
+    },
   },
   passagesDelicats: {
     type: String,

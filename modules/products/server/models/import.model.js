@@ -116,17 +116,17 @@ class importModel extends geotrek
       if (configImportGEOTREK.geotrekInstance[structure].activity != undefined &&
         configImportGEOTREK.geotrekInstance[structure].activity[element.practice] != undefined
       ) {
-        activity.push(configImportGEOTREK.geotrekInstance[structure].activity[element.practice]);
+        activity.push(configImportGEOTREK.geotrekInstance[structure].activity[element.practice])
       } else {
-        activity.push(configImportGEOTREK.activity[element.practice]);
+        activity.push(configImportGEOTREK.activity[element.practice])
       }
       if (process.env.NODE_ENV != 'production') { 
-        activity = activity.map((_, index) => {
-          return configImportGEOTREK.activityCooking[index];
+        activity = activity.map((activityId) => {
+          return configImportGEOTREK.activityCooking[activityId] ?? activityId
         })
       }
     }
-    return activity;
+    return activity
   }
 
   getDifficulty(element, difficulties) {
@@ -287,7 +287,7 @@ getAmbianceLibelle(element, lang) {
       referencesCartographiques: null,
       itineraireType: null,
       itineraireBalise: null,
-      precisionsBalisage: ''
+      precisionsBalisage: {}
     }
     if (element.max_elevation) {
       itineraire.altitudeMaximum = element.max_elevation
@@ -330,26 +330,76 @@ getAmbianceLibelle(element, lang) {
             this.instanceApi.get(`/trek_network/${id}`)
           )
         )
+
         const labelNetworks = _(trekNetwork).map('data').map('label').valueOf()
 
-        itineraire.itineraireBalise = 'BALISE'
-        let sep = ''
-        _.forEach(labelNetworks, (label) => {
-          if (label[this.lang] === 'PR') {
-            itineraire.precisionsBalisage += `${sep}Balisage Petite Randonnée`
-          } else if (label[this.lang] === 'GR') {
-            itineraire.precisionsBalisage += `${sep}Balisage Grande Randonnée`
-          } else if (label[this.lang] === 'GRP') {
-            itineraire.precisionsBalisage += `${sep}Balisage Grande Randonnée de Pays`
-          } else if (label[this.lang] === 'VTT') {
-            itineraire.precisionsBalisage += `${sep}Balisage VTT`
-          } else {
-            itineraire.precisionsBalisage += `${sep} ${label[this.lang]}`
+        const langs = ['fr', 'en', 'es', 'de', 'nl', 'it']
+
+        const networkMapping = {
+          PR: {
+            fr: 'Balisage Petite Randonnée',
+            en: 'Short hiking trail marking',
+            es: 'Señalización de Pequeño Recorrido',
+            de: 'Markierung für kurze Wanderwege',
+            nl: 'Markering voor korte wandelroute',
+            it: 'Segnaletica Piccola Escursione'
+          },
+          GR: {
+            fr: 'Balisage Grande Randonnée',
+            en: 'Long-distance hiking trail marking',
+            es: 'Señalización de Gran Recorrido',
+            de: 'Markierung für Fernwanderwege',
+            nl: 'Markering voor langeafstandswandeling',
+            it: 'Segnaletica Grande Escursione'
+          },
+          GRP: {
+            fr: 'Balisage Grande Randonnée de Pays',
+            en: 'Regional long-distance hiking trail marking',
+            es: 'Señalización de Gran Recorrido de País',
+            de: 'Markierung für regionale Fernwanderwege',
+            nl: 'Markering voor regionale langeafstandswandeling',
+            it: 'Segnaletica Grande Escursione di Paese'
+          },
+          VTT: {
+            fr: 'Balisage VTT',
+            en: 'Mountain bike trail marking',
+            es: 'Señalización BTT',
+            de: 'Mountainbike-Beschilderung',
+            nl: 'Mountainbikeroute-markering',
+            it: 'Segnaletica MTB'
           }
-          sep += ' - '
-        })
+        }
+
+        const getMappingKey = (label) => {
+          return langs
+            .map((lang) => label?.[lang])
+            .filter(Boolean)
+            .map((value) => String(value).trim().toUpperCase())
+            .find((value) => networkMapping[value])
+        }
+
+        const getLabelValue = (label, lang) => {
+          const mappingKey = getMappingKey(label)
+
+          if (mappingKey) {
+            return networkMapping[mappingKey]?.[lang] || ''
+          }
+
+          return label?.[lang] || ''
+        }
+
+        itineraire.itineraireBalise = 'BALISE'
+
+        itineraire.precisionsBalisage = langs.reduce((acc, lang) => {
+          acc[lang] = labelNetworks
+            .map((label) => getLabelValue(label, lang))
+            .filter(Boolean)
+            .join(' - ')
+
+          return acc
+        }, {})
       } catch (err) {
-        return itineraire;
+        return itineraire
       }
     }
     return itineraire

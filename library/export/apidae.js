@@ -1353,13 +1353,42 @@ class Apidae
 
           if (itinerary.itineraireBalise && itinerary.itineraireBalise.length) {
             blockItinerary.itineraireBalise = product.itinerary.itineraireBalise
+
             fieldList.push(
               blockCategory + '.' + blockField + '.itineraireBalise'
             )
-            if (itinerary.precisionsBalisage) {
-              blockItinerary.precisionsBalisage = {
-                libelleFr: product.itinerary.precisionsBalisage
+
+            if (product.itinerary.precisionsBalisage) {
+              const langToLibelle = {
+                fr: 'libelleFr',
+                en: 'libelleEn',
+                es: 'libelleEs',
+                de: 'libelleDe',
+                nl: 'libelleNl',
+                it: 'libelleIt'
               }
+
+              const precisionsBalisage = product.itinerary.precisionsBalisage
+
+              blockItinerary.precisionsBalisage = Object.entries(langToLibelle).reduce(
+                (acc, [lang, libelleKey]) => {
+                  let value
+
+                  if (precisionsBalisage instanceof Map) {
+                    value = precisionsBalisage.get(lang)
+                  } else {
+                    value = precisionsBalisage[lang]
+                  }
+
+                  if (value) {
+                    acc[libelleKey] = value
+                  }
+
+                  return acc
+                },
+                {}
+              )
+
               fieldList.push(
                 blockCategory + '.' + blockField + '.precisionsBalisage'
               )
