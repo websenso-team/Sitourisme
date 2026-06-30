@@ -90,11 +90,13 @@ class ExportApidae
           $or: [
             {
               importType: importType,
+              proprietaireId: { $in: options.membersToImport },
               lastUpdate: { $gte: today.toDate() },
               statusImport: { $in: [0, 1, 2] }
             },
             {
               importType: importType,
+              proprietaireId: { $in: options.membersToImport },
               statusImport: { $in: [-1, 4] }
             }
           ]

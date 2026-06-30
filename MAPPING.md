@@ -20,8 +20,16 @@
 | Enfant | `children` ? | *Non repris* |  |  |
 | Système de réservation | `reservation_system` | *Non repris* |  |  |
 | Itinéraires liés | ? | *Non repris* |  |  |
-| Type d'accessibilité | `accessibilities` | *Non repris* |  |  |
-| Niveau d'accessibilité | `accessibility_level` | *Non repris* |  |  |
+| Type d'accessibilité | `accessibilities` | `prestations.complementAccueil` |  |  |
+| Niveau d'accessibilité | `accessibility_level` | `prestations.complementAccueil` |  |  |
+| Conseils d'accessibilité | `accessibility_advice` | `prestations.complementAccueil` |  |  |
+| Exposition d'accessibilité | `accessibility_exposure` | `prestations.complementAccueil` |  |  |
+| Revêtement d'accessibilité | `accessibility_covering` | `prestations.complementAccueil` |  |  |
+| Pente d'accessibilité | `accessibility_slope` | `prestations.complementAccueil` |  |  |
+| Largeur d'accessibilité | `accessibility_width` | `prestations.complementAccueil` |  |  |
+| Signalétique d'accessibilité | `accessibility_signage` | `prestations.complementAccueil` |  |  |
+| Aménagements d'accessibilité | `disabled_infrastructure` | `prestations.complementAccueil` |  |  |
+| Visuels d'accessibilité | `attachments_accessibility` | `illustrations` |  |  |
 | Coordonnées | `departure_geom` | Géolocalisation | `localisation.geolocalisation.geoJson.coordinates` | Les coordonnées Geotrek sont issues du champ departure_geom quand celui-ci est renseigné, sinon du champ parking_location |
 | Chapeau | `description_teaser` | Description courte | `presentation.descriptifCourt`  | |
 | Ambiance | `ambiance` | Description détaillé | `presentation.descriptifDetaille`  | |

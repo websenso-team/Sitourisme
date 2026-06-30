@@ -100,13 +100,15 @@ class importModel extends geotrek
       pdfNl: this.getPdf(element, 'nl'),
       image: this.getImage(element),
       /*complementAccueil: 'reset',*/
-      complementAccueil: this.getComplementAccueil(element, 'fr'),
-      complementAccueilEn: this.getComplementAccueil(element, 'en'),
-      complementAccueilEs: this.getComplementAccueil(element, 'es'),
-      complementAccueilDe: this.getComplementAccueil(element, 'de'),
-      complementAccueilNl: this.getComplementAccueil(element, 'nl'),
-      complementAccueilIt: this.getComplementAccueil(element, 'it'),
+      complementAccueil: this.getComplementAccueil(element, 'fr', additionalInformation),
+      complementAccueilEn: this.getComplementAccueil(element, 'en', additionalInformation),
+      complementAccueilEs: this.getComplementAccueil(element, 'es', additionalInformation),
+      complementAccueilDe: this.getComplementAccueil(element, 'de', additionalInformation),
+      complementAccueilNl: this.getComplementAccueil(element, 'nl', additionalInformation),
+      complementAccueilIt: this.getComplementAccueil(element, 'it', additionalInformation),
       animauxAcceptes: this.getAnimaux(element, structure, additionalInformation.labels),
+      adaptedTourism: this.getTrekAccessibilities(element, structure, additionalInformation),
+      imageAdaptedTourism: this.getTrekAccessImages(element),
     }
   }
   
@@ -466,24 +468,109 @@ getAmbianceLibelle(element, lang) {
     return [];
   }
 
-  getComplementAccueil(element, lang) {
-    let compAccueilTmp = ''
+  getComplementAccueil(element, lang, additionalInformation) {
+    const sections = []
+
+    const cleanText = (value) => {
+      if (!value) return ''
+
+      const text = typeof value === 'object'
+        ? value[lang]
+        : value
+
+      if (!text) return ''
+
+      return DataString.stripTags(
+        DataString.strEncode(
+          DataString.br2nl(text)
+        )
+      ).trim()
+    }
+
+    const joinFr = (items) => {
+      if (!items.length) return ''
+      if (items.length === 1) return items[0]
+      return `${items.slice(0, -1).join(', ')} et ${items[items.length - 1]}`
+    }
+
+    const getMappedLabel = (mapping, value) => {
+      if (!value) return ''
+
+      const id = typeof value === 'object'
+        ? value.id
+        : value
+
+      if (!id) return ''
+
+      return cleanText(mapping[id])
+    }
+
+    const addLine = (lines, label, value) => {
+      const text = cleanText(value)
+      if (text) {
+        lines.push(`${label} : ${text}`)
+      }
+    }
+
+    /*
+    * RECOMMANDATIONS
+    */
     if (element.advice && element.advice[lang]) {
-      compAccueilTmp = DataString.stripTags(
-        DataString.strEncode(
-          DataString.br2nl(element.advice[lang])
-        )
+      sections.push(
+        `>>>> RECOMMANDATIONS\n${cleanText(element.advice)}`
       )
     }
+
+    /*
+    * MATERIELS
+    */
     if (element.gear && element.gear[lang]) {
-      if (compAccueilTmp != '') compAccueilTmp += "\n\n"
-      compAccueilTmp += DataString.stripTags(
-        DataString.strEncode(
-          DataString.br2nl(element.gear[lang])
-        )
+      sections.push(
+        `>>>> MATERIELS\n${cleanText(element.gear)}`
       )
     }
-    return compAccueilTmp
+
+    /*
+    * ACCESSIBILITÉ
+    */
+    const accessibilityLines = []
+
+    if (element.accessibilities && Array.isArray(element.accessibilities)) {
+      const accessibilities = element.accessibilities
+        .map(accessibility => getMappedLabel(additionalInformation.trekAccessibilities, accessibility))
+        .filter(Boolean)
+
+      if (accessibilities.length) {
+        accessibilityLines.push(`Accessible pour : ${joinFr(accessibilities)}`)
+      }
+    }
+
+    if (element.accessibility_level) {
+      const accessibilityLevel = getMappedLabel(
+        additionalInformation.trekAccessibilityLevels,
+        element.accessibility_level
+      )
+
+      if (accessibilityLevel) {
+        accessibilityLines.push(`Niveau d'accessibilité : ${accessibilityLevel}`)
+      }
+    }
+
+    addLine(accessibilityLines, 'Conseils', element.accessibility_advice)
+    addLine(accessibilityLines, 'Exposition', element.accessibility_exposure)
+    addLine(accessibilityLines, 'Revêtement', element.accessibility_covering)
+    addLine(accessibilityLines, 'Pente', element.accessibility_slope)
+    addLine(accessibilityLines, 'Largeur', element.accessibility_width)
+    addLine(accessibilityLines, 'Signalétique', element.accessibility_signage)
+    addLine(accessibilityLines, 'Aménagements', element.disabled_infrastructure)
+
+    if (accessibilityLines.length) {
+      sections.push(
+        `>>>> ACCESSIBILITÉ\n${accessibilityLines.join('\n')}`
+      )
+    }
+
+    return sections.join('\n\n')
   }
 
   getAnimaux(element, structure, labels) {
@@ -502,7 +589,47 @@ getAmbianceLibelle(element, lang) {
       : null
     // ACCEPTES
   }
-  
+
+  getTrekAccessibilities(element, structure, additionalInformation) {
+    const adaptedTourism = []
+
+    if (Array.isArray(element.accessibilities)) {
+      element.accessibilities.forEach((accessibilityId) => {
+        const structureMapping =
+          configImportGEOTREK.geotrekInstance?.[structure]?.trek_adaptedTourism?.[accessibilityId]
+
+        const defaultMapping =
+          configImportGEOTREK.trek_adaptedTourism?.[accessibilityId]
+
+        const adaptedTourismId = structureMapping ?? defaultMapping
+
+        if (adaptedTourismId !== undefined) {
+          adaptedTourism.push(adaptedTourismId)
+        }
+      })
+    }
+
+    return adaptedTourism
+  }
+
+  getTrekAccessImages(element) {
+    if (element.attachments_accessibility) {
+        let images = (element.attachments_accessibility)
+        .filter((item) => {
+          if (item['info_accessibility'] == 'signage')
+          {
+            return {
+              url: this.addUrlHttp(item['url']),
+              legend: item['legend'],
+              name: item['title'],
+              author: item['author']
+            }
+          }
+        })
+        images = _(images).valueOf()
+      return images
+    }
+  }  
 }
 
-module.exports = importModel;
+module.exports = importModel

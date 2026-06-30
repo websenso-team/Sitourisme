@@ -2049,6 +2049,27 @@ const _defaultSchema = {
     type: String,
     trim: true
   },
+  imageAdaptedTourism: [
+    {
+      url: {
+        type: String,
+        required: 'Please fill image url',
+        trim: true
+      },
+      legend: {
+        type: String,
+        trim: true
+      },
+      author: {
+        type: String,
+        trim: true
+      },
+      name: {
+        type: String,
+        trim: true
+      },
+    }
+  ],
 }
 
 exports.defaultSchema = _defaultSchema

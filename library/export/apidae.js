@@ -26,6 +26,7 @@ class Apidae
   constructor(entity)
   {
     this.productImage = null
+    this.productAdaptedTourismImage = null
     this.productMultimedia = null
     this.gpxData = null
     this.tokenPerMemberId = {}
@@ -133,7 +134,7 @@ class Apidae
         }
       };
   
-    //console.log('send for id =>', memberId, access.user, access.pass, 'tokenMember = ',me.tokenPerMemberId);
+    console.log('send for id =>', memberId, access.user, access.pass, 'tokenMember = ',me.tokenPerMemberId);
   
     if (me.tokenPerMemberId[memberId] && me.tokenPerMemberId[memberId].expire > now) {
       if (callback) {
@@ -450,21 +451,45 @@ class Apidae
   
     let PromiseRequestImage = Promise.method(() => {
       return new Promise((resolve, reject) => {
-        me.productImage = [];
+        me.productImage = []
   
         if (product.image && product.image.length) {
           me.__buildImageDetail(product.image.toObject(), 0, (err, newImage) => {
             if (err) {
-              console.error(err);
+              console.error(err)
             }
-            me.productImage = newImage;
-            resolve(product);
+            me.productImage = newImage
+            console.log('resolve PromiseRequestImage')
+            resolve(product)
           });
         } else {
-          resolve(product);
+                      console.log('resolve PromiseRequestImage end')
+
+          resolve(product)
         }
-      });
-    });
+      })
+    })
+
+    let PromiseRequestAdaptedTourismImage = Promise.method(() => {
+      return new Promise((resolve, reject) => {
+        me.productAdaptedTourismImage = []
+        console.log('product.imageAdaptedTourism.toObject >>', product.imageAdaptedTourism.toObject)
+        if (product.imageAdaptedTourism && product.imageAdaptedTourism.length) {
+          me.__buildImageDetail(product.imageAdaptedTourism.toObject(), 0, (err, newImage) => {
+            if (err) {
+              console.error(err)
+            }
+            me.productAdaptedTourismImage = newImage
+            console.log('resolve PromiseRequestAdaptedTourismImage')
+            resolve(product)
+          });
+        } else {
+                      console.log('resolve PromiseRequestAdaptedTourismImage end')
+
+          resolve(product)
+        }
+      })
+    })
 
     const PromiseRequestGpx = () => {
       me.gpxData = []
@@ -513,6 +538,7 @@ class Apidae
     }
 
     PromiseRequestImage()
+      .then(() => PromiseRequestAdaptedTourismImage())
       .then(() => PromiseRequestGpx())
       .then(() =>PromiseRequestFather())
       .then(async (product) => {
@@ -647,10 +673,13 @@ class Apidae
           rootFieldList = dataTmp.rootFieldList;
         }
   
-        // Image
-        dataTmp = me.__buildImage(product, root, rootFieldList);
+        dataTmp = me.__buildImage(product, root, rootFieldList, [
+          ...(me.productImage || []),
+          ...(me.productAdaptedTourismImage || [])
+        ])
+
         if (dataTmp) {
-          rootFieldList = dataTmp.rootFieldList;
+          rootFieldList = dataTmp.rootFieldList
         }
   
         // Multimedia
@@ -753,21 +782,47 @@ class Apidae
           formData.skipValidation = 'true';
         }
   
-        var attachmentData;
+        let attachmentData
+        let nIllustration = 1
+
+        console.log('>>>>>>>>>>me.productImage', me.productImage)
+
         if (me.productImage && me.productImage.length) {
-          var nImage;
-          for (nImage = 0; nImage < me.productImage.length; nImage++) {
+          for (let nImage = 0; nImage < me.productImage.length; nImage++) {
             attachmentData = me.productImage[nImage].data
               ? me.productImage[nImage].data
-              : null;
+              : null
+
             if (attachmentData && attachmentData.content) {
-              formData['multimedia.illustration-' + (nImage + 1)] = {
+              formData['multimedia.illustration-' + nIllustration] = {
                 value: attachmentData.content,
                 options: {
                   filename: attachmentData.filename,
                   contentType: attachmentData.contentType
                 }
-              };
+              }
+
+              nIllustration++
+            }
+          }
+        }
+
+        if (me.productAdaptedTourismImage && me.productAdaptedTourismImage.length) {
+          for (let nImage = 0; nImage < me.productAdaptedTourismImage.length; nImage++) {
+            attachmentData = me.productAdaptedTourismImage[nImage].data
+              ? me.productAdaptedTourismImage[nImage].data
+              : null
+
+            if (attachmentData && attachmentData.content) {
+              formData['multimedia.illustration-' + nIllustration] = {
+                value: attachmentData.content,
+                options: {
+                  filename: attachmentData.filename,
+                  contentType: attachmentData.contentType
+                }
+              }
+
+              nIllustration++
             }
           }
         }
@@ -3592,9 +3647,9 @@ class Apidae
       product.adaptedTourism,
       null,
       unwantedTypes,
-      context
-    );
-    rootFieldList.push('prestations.tourismesAdaptes');
+      this
+    )
+    rootFieldList.push('prestations.tourismesAdaptes')
   }
 
   // ALERTE ! SPECIAL CASE !
@@ -3978,12 +4033,14 @@ class Apidae
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
 }
 
- __buildImage(product, root, rootFieldList) {
+ __buildImage(product, root, rootFieldList, field) {
   let arrImage = [],
     err = false;
 
-  if (this.productImage && this.productImage.length) {
-    _.forEach(this.productImage, function (imageData, nImage) {
+  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage: ' + field)
+
+  if (field && field.length) {
+    _.forEach(field, function (imageData, nImage) {
       let image = {},
         name = {},
         legend = {},
@@ -4084,6 +4141,7 @@ class Apidae
     err = true;
   }
   rootFieldList.push('illustrations');
+  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage illustrations: ' + arrImage)
 
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
 }
@@ -4586,6 +4644,7 @@ async __buildImageDetail(images, nImage = 0, callback, sizeImage = 2500) { ///* 
       contentType: ext === 'png' ? 'image/png' : 'image/jpeg',
       content: buffer
     }
+    //if (config.debug && config.debug.logsFile && config.debug && config.debug.logImages) log.writeLog('Image processing : ' + image.url + ' content = ' + buffer)
 
     if (config.debug && config.debug.logImages) console.log('__buildImageDetail ending > ',images[nImage].data)
 

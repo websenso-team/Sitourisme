@@ -60,6 +60,7 @@ exports.trek_label = {}
 exports.trek_typologie = {}
 exports.trek_typologieCooking = {}
 exports.trek_theme = {}
+exports.trek_adaptedTourism = {}
 
 exports.geotrekInstance = {
   0: {
@@ -166,6 +167,12 @@ exports.geotrekInstance = {
       5: 590, //Niveau noir - Très difficile
     },
     trek_animaux : 1,
+    trek_adaptedTourism : {
+      1: 3653, //Fauteuil roulant > Accessible en fauteuil roulant en autonomie
+      2: 5937, //Joëlette > Accessible en joëlette
+      3: 6877, //Poussette > Accessible en poussette
+      4: 5448, //Famille > Famille
+    },
     touristicevent_cat : {
       1: 2080, // Exposition > Exposition
       /*2:null,// not mapped*/
@@ -1626,5 +1633,8 @@ exports.geotrekInstance = {
       3: 'ALLER_ITINERANCE',
     },
     trek_animaux : 1,
+    trek_adaptedTourism : {
+      1: 4219, //Tourisme & Handicap > Personnel d’accueil sensibilisé à l’accueil des personnes en situation de handicap
+    },
   },
 };
