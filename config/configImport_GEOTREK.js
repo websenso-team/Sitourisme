@@ -147,8 +147,18 @@ exports.geotrekInstance = {
         },
       },
       11: {
+        specialId: 'sitraSTR774184',
+        name: "Office de Tourisme  de Serre Chevalier & Briançon",
+        address1: null,
+        address2: null,
+        city: '1909',
+        insee: '05240',
+        specialIdSitra: '183146',
+        statusImport: 2,
+        memberId : 6707,
+        proprietaireId: 511,
         production: {
-          syncTrek: false,
+          syncTrek: true,
           syncEvent:false
         },
       },
@@ -698,8 +708,18 @@ exports.geotrekInstance = {
         },
       },
       5: {
+        specialId: 'sitraSTR791249',
+        name: 'Office de Tourisme Terres de Gap',
+        address1: null,
+        address2: null,
+        city: '1813',
+        insee: '05061',
+        specialIdSitra: '227568',
+        statusImport: 2,
+        memberId : 708,
+        proprietaireId: 525,
         production: {
-          syncTrek: false,
+          syncTrek: true,
           syncEvent:false
         },
       },
