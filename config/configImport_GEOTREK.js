@@ -5,16 +5,16 @@ exports.types = {
 };
 
 exports.activity = {
-  2: 3284,
-  3: 3313,
-  4: 3333,
-  7: 3302,
-  8: 4201,
-  9: 3333,
-  11: 3333,
-  12: 6225,
-  13: 6224,
-  14: 3283
+  2: 3284, /* VTT : Itinéraire VTT */
+  3: 3313, /* Cheval : Itinéraire de randonnée équestre */
+  4: 3333, /* A pied : Itinéraire de randonnée pédestre */
+  7: 3302, /* Raquette : Itinéraire raquettes */
+  8: 4201, /* Trail : Itinéraire de Trail */
+  9: 4201, /* Snow trail : Itinéraire de Trail */
+  11: 3849, /* Alpinisme : Site d'alpinisme */
+  12: 6225, /* VTTAE : Itinéraire de VTT à Assistance Électrique */
+  13: 6224, /* Gravel : Itinéraire gravel bike */
+  14: 3283 /* Cyclo : Itinéraire cyclotourisme */
 };
 
 exports.activityCooking = {
