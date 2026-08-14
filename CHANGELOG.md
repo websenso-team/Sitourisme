@@ -1,3 +1,6 @@
+## [2.6.1]
+- Mapping des pratiques des itinéraires de rando [#144](https://github.com/GeotrekCE/Sitourisme/issues/144)
+
 ## [2.6.0]
 - Suppression des fiches APIDAE supprimées dans Geotrek [#54](https://github.com/GeotrekCE/Sitourisme/issues/54)
 - Erreur de synchronisation sur une fiche avec même identifiant dans 2 structures différentes [#132](https://github.com/GeotrekCE/Sitourisme/issues/132)
