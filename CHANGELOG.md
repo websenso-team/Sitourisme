@@ -1,5 +1,6 @@
 ## [2.6.1]
 - Configuration - Structures de Serre Chevalier et Terres de Gap
+- Mapping des pratiques des itinéraires de rando [#144](https://github.com/GeotrekCE/Sitourisme/issues/144)
 
 ## [2.6.0]
 - Synchroniser les infos sur l'accessibilité des treks sur Apidae [#120](https://github.com/GeotrekCE/Sitourisme/issues/120)
