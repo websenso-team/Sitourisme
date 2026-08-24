@@ -1,12 +1,10 @@
-## [2.6.1]
+## [2.6.0]
 - Configuration - Structures de Serre Chevalier et Terres de Gap
 - Mapping des pratiques des itinéraires de rando [#144](https://github.com/GeotrekCE/Sitourisme/issues/144)
-
-## [2.6.0]
 - Synchroniser les infos sur l'accessibilité des treks sur Apidae [#120](https://github.com/GeotrekCE/Sitourisme/issues/120)
 - Faire remonter les traductions des réseaux de randonnée (balisage) [#119](https://github.com/GeotrekCE/Sitourisme/issues/119)
-- Ajouter l'information Animaux interdits si passage zone Coeur de Parc [#126](https://github.com/GeotrekCE/Sitourisme/issues/126)
-- Trek > Synchroniser le champ Matériel dans Prestations > ComplémentAccueil [#128](https://github.com/GeotrekCE/Sitourisme/issues/128)
+- Animaux acceptés : Oui / Non selon le mapping optionnel configuré par instance. (PNE & Guadeloupe) [#126](https://github.com/GeotrekCE/Sitourisme/issues/126)
+- "Recommandation" & "Matériel" (Geotrek) vers "Prestations > ComplémentAccueil" (Apidae) [#128](https://github.com/GeotrekCE/Sitourisme/issues/128)
 - Suppression des fiches APIDAE supprimées dans Geotrek [#54](https://github.com/GeotrekCE/Sitourisme/issues/54)
 - Erreur de synchronisation sur une fiche avec même identifiant dans 2 structures différentes [#132](https://github.com/GeotrekCE/Sitourisme/issues/132)
 - Fix problème images

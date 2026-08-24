@@ -885,16 +885,17 @@ class Apidae
             }
           },
           async function (err, httpResponse, body) {
-            //console.log(formData);
-            const statusCode = httpResponse?.statusCode;
-            const success = statusCode === 200;
+            //console.log(formData)
+            const statusCode = httpResponse?.statusCode
+            const success = statusCode === 200
             if (!success) {
-              console.log(chalk.red("##### L'export a échoué ! #####"));
+              console.log(chalk.red("##### L'export a échoué ! #####"))
+              if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE / ERR = ' + product.specialId + ' ' + product.specialIdSitra + ' statusCode = ' + statusCode + ' err = ' + body.message)
+            } else {
+              if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE = ' + product.specialId + ' ' + product.specialIdSitra + ' statusCode = ' + statusCode + ' err = ' + body.message)
             }
             console.log(body);
             console.log("****"+product.id);
-
-            if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE = ' + product.specialId + ' ' + product.specialIdSitra)
 
             //console.log('FormData= ',formData);
             // si erreur http (pas pour une erreur apidae)
@@ -930,8 +931,6 @@ class Apidae
               }
             }
   
-            if (config.debug && config.debug.logsFile && product.specialId == '904168') log.writeLog('APIDAE REPONSE =', body)
-
             // Critères internes
             console.log('crit interne pour ', body.id, product.specialIdSitra)
             let specialIdSitraForCI = null

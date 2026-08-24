@@ -158,7 +158,7 @@ exports.geotrekInstance = {
         memberId : 6707,
         proprietaireId: 511,
         production: {
-          syncTrek: true,
+          syncTrek: false,
           syncEvent:false
         },
       },
