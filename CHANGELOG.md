@@ -1,7 +1,7 @@
 ## [2.6.0]
 - Configuration - Ajout de la synchronisation des structures de Serre Chevalier et Terres de Gap
 - Amélioration du mapping des pratiques des itinéraires de rando [#144](https://github.com/GeotrekCE/Sitourisme/issues/144)
-- Synchroniser les infos sur l'accessibilité des treks sur Apidae [#120](https://github.com/GeotrekCE/Sitourisme/issues/120)
+- Synchroniser les infos sur l'accessibilité handicap des treks sur Apidae [#120](https://github.com/GeotrekCE/Sitourisme/issues/120)
 - Faire remonter les traductions des réseaux de randonnée (balisage) [#119](https://github.com/GeotrekCE/Sitourisme/issues/119)
 - Animaux acceptés : Oui / Non selon le mapping optionnel configuré par instance. (PNE & Guadeloupe) [#126](https://github.com/GeotrekCE/Sitourisme/issues/126)
 - "Recommandation" & "Matériel" (Geotrek) vers "Prestations > ComplémentAccueil" (Apidae) [#128](https://github.com/GeotrekCE/Sitourisme/issues/128)
