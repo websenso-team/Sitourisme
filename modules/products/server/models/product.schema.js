@@ -1869,9 +1869,13 @@ const _defaultSchema = {
       trim: true
     },
     precisionsBalisage: {
-      type: String,
-      trim: true
-    }
+      fr: { type: String, trim: true },
+      en: { type: String, trim: true },
+      es: { type: String, trim: true },
+      de: { type: String, trim: true },
+      nl: { type: String, trim: true },
+      it: { type: String, trim: true }
+    },
   },
   passagesDelicats: {
     type: String,
@@ -2025,6 +2029,47 @@ const _defaultSchema = {
     type: String,
     trim: true
   },
+  complementAccueilEn: {
+    type: String,
+    trim: true
+  },
+  complementAccueilEs: {
+    type: String,
+    trim: true
+  },
+  complementAccueilDe: {
+    type: String,
+    trim: true
+  },
+  complementAccueilNl: {
+    type: String,
+    trim: true
+  },
+  complementAccueilIt: {
+    type: String,
+    trim: true
+  },
+  imageAdaptedTourism: [
+    {
+      url: {
+        type: String,
+        required: 'Please fill image url',
+        trim: true
+      },
+      legend: {
+        type: String,
+        trim: true
+      },
+      author: {
+        type: String,
+        trim: true
+      },
+      name: {
+        type: String,
+        trim: true
+      },
+    }
+  ],
 }
 
 exports.defaultSchema = _defaultSchema

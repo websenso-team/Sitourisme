@@ -11,7 +11,6 @@
 | Étiquettes | `labels` | Descriptifs thématisés / Conseils et suggestions  | `presentation.descriptifsThematises`  |  |
 | Réseaux | `networks` | Précisions balisage | `informationsEquipement.itineraire.precisionsBalisage` | Les valeurs Geotrek sont écrites en texte dans Apidae, séparées par des tirets. Certaines valeurs sont réécrites : **PR → Balisage Petite Randonnée**, **GR → Balisage Grande Randonnée**, **GRP → Balisage Grande Randonnée de Pays**, **VTT → Balisage VTT** |
 | Lien web | `web_links` | *Non repris* |  |  |
-| Lieu de renseignement → Rue | `information_desks` (référence) → `street` | Adresse | `localisation.adresse.adresse1` | |
 | Lieu de renseignement → Site web | `information_desks` (référence) → `website` | Moyens de communication | `informations.moyensCommunication` | |
 | Lieu de renseignement → Courriel | `information_desks` (référence) → `email` | Moyens de communication | `informations.moyensCommunication` | |
 | Lieu de renseignement → Téléphone | `information_desks` (référence) → `phone` | Moyens de communication | `informations.moyensCommunication` | |
@@ -20,13 +19,23 @@
 | Enfant | `children` ? | *Non repris* |  |  |
 | Système de réservation | `reservation_system` | *Non repris* |  |  |
 | Itinéraires liés | ? | *Non repris* |  |  |
-| Type d'accessibilité | `accessibilities` | *Non repris* |  |  |
-| Niveau d'accessibilité | `accessibility_level` | *Non repris* |  |  |
+| Type d'accessibilité | `accessibilities` | `prestations.complementAccueil` |  |  |
+| Niveau d'accessibilité | `accessibility_level` | `prestations.complementAccueil` |  |  |
+| Conseils d'accessibilité | `accessibility_advice` | `prestations.complementAccueil` |  |  |
+| Exposition d'accessibilité | `accessibility_exposure` | `prestations.complementAccueil` |  |  |
+| Revêtement d'accessibilité | `accessibility_covering` | `prestations.complementAccueil` |  |  |
+| Pente d'accessibilité | `accessibility_slope` | `prestations.complementAccueil` |  |  |
+| Largeur d'accessibilité | `accessibility_width` | `prestations.complementAccueil` |  |  |
+| Signalétique d'accessibilité | `accessibility_signage` | `prestations.complementAccueil` |  |  |
+| Aménagements d'accessibilité | `disabled_infrastructure` | `prestations.complementAccueil` |  |  |
+| Visuels d'accessibilité | `attachments_accessibility` | `illustrations` |  |  |
 | Coordonnées | `departure_geom` | Géolocalisation | `localisation.geolocalisation.geoJson.coordinates` | Les coordonnées Geotrek sont issues du champ departure_geom quand celui-ci est renseigné, sinon du champ parking_location |
 | Chapeau | `description_teaser` | Description courte | `presentation.descriptifCourt`  | |
 | Ambiance | `ambiance` | Description détaillé | `presentation.descriptifDetaille`  | |
 | Description | `description` | Descriptifs thématisés / Topo/pas à pas  | `presentation.descriptifsThematises`  |  |
-| Recommandations | `advice` | Descriptifs thématisés / Conseils et suggestions  | `presentation.descriptifsThematises`  |  |
+| Recommandations | `advice` | Prestations > ComplémentAccueil  | `prestations.complementAccueil`  |  |
+| Matériel | `gear` | Prestations > ComplémentAccueil  | `prestations.complementAccueil`  |  |
+| | | Prestations > ComplémentAccueil  | `prestations.animauxAcceptes`  | Permet de définir à NON_ACCEPTES la prestation animauxAcceptes d'Apidae si le label du trek correspond à l'ID du label défini en configuration par instance, configuration optionnelle |
 | Etiquettes | `labels` | Descriptifs thématisés / Conseils et suggestions  | `presentation.descriptifsThematises`  | Ici est retourné le(s) id(s) des labels. Les labels sont disonible sur  /api/v2/label ou :api/label/{id}. Le texte des éventuelles étiquettes sera concaténé aux recommandations et aura la forme suivant "Nom de l'étiquette : Texte de l'étiquette nettoyé". Il peut y avoir du contenu HTML, s'il y a des images ou photos, elles ne seront alors pas prises en compte dans l'import/ - EVO 5.2 via le fichier de configuration des instances, il est possible d'ajouter un mapping entre les labels Geotrek et les critères internes Apidae|
 | Geotrek-trek-id | `id` | ??? | ???  | Le but est de récupérer l'id de l'itinéraire au sein du Geotrek pour pouvoir l'appeler depuis l'API Geotrek via le widget ou sur une page d'un OT |
 | Geotrek-api-url | `url` | ??? | ???  | Il est aussi possible de récupérer l'id et l'url en parsant ce champ. L'idée est la même que ci-dessus pour l'id |

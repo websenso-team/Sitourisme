@@ -60,6 +60,7 @@ exports.trek_label = {}
 exports.trek_typologie = {}
 exports.trek_typologieCooking = {}
 exports.trek_theme = {}
+exports.trek_adaptedTourism = {}
 
 exports.geotrekInstance = {
   0: {
@@ -146,6 +147,16 @@ exports.geotrekInstance = {
         },
       },
       11: {
+        specialId: 'sitraSTR774184',
+        name: "Office de Tourisme  de Serre Chevalier & Briançon",
+        address1: null,
+        address2: null,
+        city: '1909',
+        insee: '05240',
+        specialIdSitra: '183146',
+        statusImport: 2,
+        memberId : 6707,
+        proprietaireId: 511,
         production: {
           syncTrek: false,
           syncEvent:false
@@ -164,6 +175,13 @@ exports.geotrekInstance = {
       3: 6669,// Niveau orange - assez difficile	
       4: 589, //Niveau rouge - Difficile
       5: 590, //Niveau noir - Très difficile
+    },
+    trek_animaux : 1,
+    trek_adaptedTourism : {
+      1: 3653, //Fauteuil roulant > Accessible en fauteuil roulant en autonomie
+      2: 5937, //Joëlette > Accessible en joëlette
+      3: 6877, //Poussette > Accessible en poussette
+      4: 5448, //Famille > Famille
     },
     touristicevent_cat : {
       1: 2080, // Exposition > Exposition
@@ -690,8 +708,18 @@ exports.geotrekInstance = {
         },
       },
       5: {
+        specialId: 'sitraSTR791249',
+        name: 'Office de Tourisme Terres de Gap',
+        address1: null,
+        address2: null,
+        city: '1813',
+        insee: '05061',
+        specialIdSitra: '227568',
+        statusImport: 2,
+        memberId : 708,
+        proprietaireId: 525,
         production: {
-          syncTrek: false,
+          syncTrek: true,
           syncEvent:false
         },
       },
@@ -1623,6 +1651,10 @@ exports.geotrekInstance = {
       1: 'ALLER_RETOUR',
       2: 'BOUCLE',
       3: 'ALLER_ITINERANCE',
+    },
+    trek_animaux : 1,
+    trek_adaptedTourism : {
+      1: 4219, //Tourisme & Handicap > Personnel d’accueil sensibilisé à l’accueil des personnes en situation de handicap
     },
   },
 };

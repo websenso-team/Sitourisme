@@ -16181,6 +16181,10 @@ module.exports = {
     {
       id: 6304,
       labelFr: 'Privatisable'
+    },
+    {
+      id: 6877,
+      labelFr: 'Accessible en poussette'
     }
   ],
   PrestationVisiteGroupee: [
@@ -19491,214 +19495,252 @@ module.exports = {
   ],
   TourismeAdapte: [
     {
-      id: 3682,
-      labelFr: '1 seule marche < 15 cm'
-    },
-    {
-      id: 3666,
-      labelFr: 'Absence de marches'
-    },
-    {
-      id: 3658,
-      labelFr: 'Absence de pente > 5%'
-    },
-    {
-      id: 3659,
-      labelFr: 'Absence de ressauts > à 2 cm'
-    },
-    {
-      id: 3680,
-      labelFr: 'Accessible, adapté au FTT/FTT piloté'
+      id: 3653,
+      labelFr: "Accessible en fauteuil roulant en autonomie"
     },
     {
       id: 3652,
-      labelFr: 'Accessible en fauteuil roulant avec aide'
-    },
-    {
-      id: 3653,
-      labelFr: 'Accessible en fauteuil roulant en autonomie'
-    },
-    {
-      id: 5937,
-      labelFr: 'Accessible en joëlette'
-    },
-    {
-      id: 3681,
-      labelFr: 'Adapté au FTT électrique'
-    },
-    {
-      id: 4212,
-      labelFr: 'Alarme visuelle avec flash lumineux'
-    },
-    {
-      id: 3663,
-      labelFr: 'Ascenseur (80 x 130 cm) et porte >= 77 cm'
-    },
-    {
-      id: 3669,
-      labelFr: 'Baignoire + tablette transfert + espace de circulation'
-    },
-    {
-      id: 4213,
-      labelFr: 'Boucle magnétique disponible à l’accueil'
-    },
-    {
-      id: 3673,
-      labelFr: 'Chambre réservée'
-    },
-    {
-      id: 3664,
-      labelFr: 'Comptoir d’accueil entre 70 et 80 cm de haut'
-    },
-    {
-      id: 3684,
-      labelFr: 'Déclivité >5% mais raisonnable'
-    },
-    {
-      id: 4217,
-      labelFr: 'Documentation disponible en braille'
-    },
-    {
-      id: 3668,
-      labelFr: 'Douche avec assise + espace de circulation'
-    },
-    {
-      id: 3679,
-      labelFr: 'Fauteuil roulant à disposition'
-    },
-    {
-      id: 3665,
-      labelFr: 'Hauteur ss table >= 70 cm largeur>= 77 cm'
-    },
-    {
-      id: 3660,
-      labelFr: 'Largeur de passage minimum de 90 cm'
-    },
-    {
-      id: 3672,
-      labelFr: 'Lit accessible au moins d’un côté 90 cm'
-    },
-    {
-      id: 3670,
-      labelFr: 'Lit, wc... entre 46-50 cm de haut'
-    },
-    {
-      id: 3651,
-      labelFr: 'Non accessible en fauteuil roulant'
-    },
-    {
-      id: 4214,
-      labelFr: 'Personnel d’accueil formé à la Langue des Signes Française'
-    },
-    {
-      id: 4219,
-      labelFr:
-        'Personnel d’accueil sensibilisé à l’accueil des personnes en situation de handicap'
-    },
-    {
-      id: 3687,
-      labelFr: 'Place parking enneigée, sur le front de neige'
+      labelFr: "Accessible en fauteuil roulant avec aide"
     },
     {
       id: 3655,
-      labelFr: 'Place réservée 330 cm large < 100 m du site'
+      labelFr: "Place réservée PMR"
     },
     {
-      id: 3654,
-      labelFr: 'Place réservée 330 cm large < 20 m du site'
+      id: 7400,
+      labelFr: "Place adaptée PMR"
     },
     {
-      id: 4218,
-      labelFr:
-        'Plan en relief, maquette tactile ou dispositif d’audio description disponible à l’accueil'
-    },
-    {
-      id: 3683,
-      labelFr: 'Porte lourde'
-    },
-    {
-      id: 3661,
-      labelFr: 'Portes >=77 cm large'
-    },
-    {
-      id: 3662,
-      labelFr: 'Portes intérieures à ouvertures faciles'
-    },
-    {
-      id: 3676,
-      labelFr: 'Possibilité de déposer quelqu’un devant le site'
-    },
-    {
-      id: 3678,
-      labelFr: 'Potence de transfert'
-    },
-    {
-      id: 4215,
-      labelFr: 'Présence de pictogrammes et/ou de visuels simplifiés'
-    },
-    {
-      id: 1191,
-      labelFr: 'Prestations adaptées pour déficience auditive'
-    },
-    {
-      id: 1196,
-      labelFr: 'Prestations adaptées pour déficience mentale'
-    },
-    {
-      id: 3943,
-      labelFr: 'Prestations adaptées pour déficience motrice'
-    },
-    {
-      id: 1199,
-      labelFr: 'Prestations adaptées pour déficience visuelle'
-    },
-    {
-      id: 3671,
-      labelFr: 'Prises, électroménager hauteur <=130 cm'
-    },
-    {
-      id: 3689,
-      labelFr: 'Retour piste ski -> parking non adapté'
-    },
-    {
-      id: 3688,
-      labelFr: 'Retour piste ski -> parking par gravité'
-    },
-    {
-      id: 3656,
-      labelFr: 'Signalisation verticale des places de parking'
-    },
-    {
-      id: 3675,
-      labelFr: 'Site, bâtiment partiellement accessible'
-    },
-    {
-      id: 3674,
-      labelFr: 'Site, bâtiment totalement accessible'
-    },
-    {
-      id: 3657,
-      labelFr: 'Sol régulier roulant et sans obstacle'
-    },
-    {
-      id: 4216,
-      labelFr: 'Téléphone à grosses touches'
-    },
-    {
-      id: 3677,
-      labelFr: 'Tiralo, hippocampe à disposition'
-    },
-    {
-      id: 3686,
-      labelFr: 'Transfert parking -> piste ski non adapté'
+      id: 3687,
+      labelFr: "Place parking enneigée, sur le front de neige"
     },
     {
       id: 3685,
-      labelFr: 'Transfert parking -> piste ski par gravité'
+      labelFr: "Transfert parking -> piste ski par gravité"
+    },
+    {
+      id: 3686,
+      labelFr: "Transfert parking -> piste ski non adapté"
+    },
+    {
+      id: 3688,
+      labelFr: "Retour piste ski -> parking par gravité"
+    },
+    {
+      id: 3689,
+      labelFr: "Retour piste ski -> parking non adapté"
+    },
+    {
+      id: 3676,
+      labelFr: "Possibilité de déposer quelqu’un devant le site"
+    },
+    {
+      id: 3684,
+      labelFr: "Rampe d'accès"
+    },
+    {
+      id: 3657,
+      labelFr: "Revêtement dur"
+    },
+    {
+      id: 3659,
+      labelFr: "Cheminement de plain-pied"
+    },
+    {
+      id: 3663,
+      labelFr: "Ascenseur aux normes"
+    },
+    {
+      id: 8984,
+      labelFr: "Sonnette PMR"
+    },
+    {
+      id: 3660,
+      labelFr: "Zone de circulation dégagée"
+    },
+    {
+      id: 3664,
+      labelFr: "Mobilier/Comptoir d'accueil adapté aux personnes en fauteuil roulant"
+    },
+    {
+      id: 3661,
+      labelFr: "Entrée accessible"
+    },
+    {
+      id: 3665,
+      labelFr: "Table accessible"
+    },
+    {
+      id: 3668,
+      labelFr: "Douche avec assise + espace de circulation"
+    },
+    {
+      id: 3669,
+      labelFr: "Baignoire + tablette transfert + espace de circulation"
+    },
+    {
+      id: 3670,
+      labelFr: "Lit, wc... entre 46-50 cm de haut"
+    },
+    {
+      id: 3672,
+      labelFr: "Espace de circulation sur le côté du lit"
+    },
+    {
+      id: 3673,
+      labelFr: "Une chambre PMR"
+    },
+    {
+      id: 6410,
+      labelFr: "Accès à l'eau aménagé"
     },
     {
       id: 3667,
-      labelFr: 'WC + barre d’appui + espace de circulation'
+      labelFr: "WC + barre d'appui + espace de circulation"
+    },
+    {
+      id: 6412,
+      labelFr: "Plate-forme handi"
+    },
+    {
+      id: 3680,
+      labelFr: "Accessible, adapté au FTT/FTT piloté"
+    },
+    {
+      id: 3681,
+      labelFr: "Adapté au FTT électrique"
+    },
+    {
+      id: 5937,
+      labelFr: "Accessible en joëlette"
+    },
+    {
+      id: 3679,
+      labelFr: "Matériel à disposition"
+    },
+    {
+      id: 6898,
+      labelFr: "Présence de zones d'assises ou d'assis-debout"
+    },
+    {
+      id: 3674,
+      labelFr: "Site, bâtiment totalement accessible"
+    },
+    {
+      id: 3943,
+      labelFr: "Prestations adaptées pour déficience motrice"
+    },
+    {
+      id: 1191,
+      labelFr: "Prestations adaptées pour déficience auditive"
+    },
+    {
+      id: 4212,
+      labelFr: "Alarme visuelle avec flash lumineux"
+    },
+    {
+      id: 4213,
+      labelFr: "Boucle magnétique disponible à l’accueil"
+    },
+    {
+      id: 4214,
+      labelFr: "Possibilité de communiquer en Langue des Signes Française"
+    },
+    {
+      id: 6896,
+      labelFr: "Dispositifs d'aide à la visite"
+    },
+    {
+      id: 1196,
+      labelFr: "Prestations adaptées pour déficience mentale"
+    },
+    {
+      id: 6897,
+      labelFr: "Documentation en Français Facile"
+    },
+    {
+      id: 4215,
+      labelFr: "Présence de pictogrammes et/ou de visuels simplifiés de signalétique adaptée (textes/images)"
+    },
+    {
+      id: 1199,
+      labelFr: "Prestations adaptées pour déficience visuelle"
+    },
+    {
+      id: 6891,
+      labelFr: "Prestation accessible en autonomie complète pour une personne non-voyante"
+    },
+    {
+      id: 6892,
+      labelFr: "Prestation accessible avec aide pour une personne non-voyante"
+    },
+    {
+      id: 8993,
+      labelFr: "Balises sonores"
+    },
+    {
+      id: 4217,
+      labelFr: "Documentation disponible en braille et/ou en gros caractères"
+    },
+    {
+      id: 4218,
+      labelFr: "Présentation du lieu accessible aux personnes déficientes visuelles à l'accueil"
+    },
+    {
+      id: 6890,
+      labelFr: "Outils d'aide à la visite"
+    },
+    {
+      id: 6893,
+      labelFr: "Cheminement sans obstacles à l'intérieur"
+    },
+    {
+      id: 6894,
+      labelFr: "Eclairage non éblouissant sur l'ensemble du site"
+    },
+    {
+      id: 6895,
+      labelFr: "Cheminements extérieurs repérables (contraste/relief) depuis la place de parking PMR jusqu'à l'entrée accessible"
+    },
+    {
+      id: 3682,
+      labelFr: "1 seule marche < 15 cm"
+    },
+    {
+      id: 3683,
+      labelFr: "Porte lourde"
+    },
+    {
+      id: 3678,
+      labelFr: "Potence de transfert"
+    },
+    {
+      id: 3654,
+      labelFr: "Place réservée 330 cm large < 20 m du site"
+    },
+    {
+      id: 3656,
+      labelFr: "Signalisation verticale des places de parking"
+    },
+    {
+      id: 3651,
+      labelFr: "Non accessible en fauteuil roulant"
+    },
+    {
+      id: 4219,
+      labelFr: "Personnel d’accueil sensibilisé à l’accueil des personnes en situation de handicap"
+    },
+    {
+      id: 1210,
+      labelFr: "Agrément \"APF\""
+    },
+    {
+      id: 1208,
+      labelFr: "Agrément \"Handicheval\""
+    },
+    {
+      id: 1203,
+      labelFr: "Agrément \"Skiez avec votre handicap\""
     }
   ],
   TypeClientele: [

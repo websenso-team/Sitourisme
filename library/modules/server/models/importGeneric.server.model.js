@@ -36,6 +36,8 @@ class ImportGeotrekApi extends Import
 
     this.labels = {}
     this.difficulties = {}
+    this.trekAccessibilities = {}
+    this.trekAccessibilityLevels = {}
     
     this.importModule = require(path.resolve('./modules/' + options.moduleName + '/server/models/import.model.js'))
   }
@@ -74,6 +76,24 @@ class ImportGeotrekApi extends Import
           )
           .catch((err) => {
             console.log(chalk.red('>>> DIFFICULTY ERR = ', err, 'For instance = ', instance))
+            return false
+          })
+
+          me.getTrekAccessibility(
+            configImportGEOTREK.geotrekInstance[instance].geotrekUrl,
+            instance
+          )
+          .catch((err) => {
+            console.log(chalk.red('>>> TREK ACCESSIBILITY ERR = ', err, 'For instance = ', instance))
+            return false
+          })
+
+          me.getTrekAccessibilityLevel(
+            configImportGEOTREK.geotrekInstance[instance].geotrekUrl,
+            instance
+          )
+          .catch((err) => {
+            console.log(chalk.red('>>> TREK ACCESSIBILITY LEVEL ERR = ', err, 'For instance = ', instance))
             return false
           })
         }
@@ -168,6 +188,90 @@ class ImportGeotrekApi extends Import
       })
     }
   }
+
+  async getTrekAccessibility(instanceGeo, instance) {
+    if (config.debug && config.debug.logs) {
+      console.log('ImportGenericGeotrekApi.prototype.getTrekAccessibility')
+    }
+
+    this.instanceApi = axios.create({
+      baseURL: instanceGeo,
+      validateStatus(status) {
+        return status < 500
+      }
+    })
+
+    const { data, status } = await this.instanceApi.get('/trek_accessibility?format=json')
+
+    if (status === 200 && data.results) {
+      data.results.forEach(item => {
+        const label =
+          item.label ||
+          item.name ||
+          item.nom ||
+          item.value ||
+          ''
+
+        /*if (
+          configImportGEOTREK.geotrekInstance[instance].trek_accessibility &&
+          configImportGEOTREK.geotrekInstance[instance].trek_accessibility[item.id]
+        ) {
+          this.trekAccessibilities[item.id] =
+            configImportGEOTREK.geotrekInstance[instance].trek_accessibility[item.id]
+        } else if (
+          configImportGEOTREK.trek_accessibility &&
+          configImportGEOTREK.trek_accessibility[item.id]
+        ) {
+          this.trekAccessibilities[item.id] =
+            configImportGEOTREK.trek_accessibility[item.id]
+        } else {*/
+          this.trekAccessibilities[item.id] = label
+        //}
+      })
+    }
+  }
+
+  async getTrekAccessibilityLevel(instanceGeo, instance) {
+    if (config.debug && config.debug.logs) {
+      console.log('ImportGenericGeotrekApi.prototype.getTrekAccessibilityLevel')
+    }
+
+    this.instanceApi = axios.create({
+      baseURL: instanceGeo,
+      validateStatus(status) {
+        return status < 500
+      }
+    })
+
+    const { data, status } = await this.instanceApi.get('/trek_accessibility_level?format=json')
+
+    if (status === 200 && data.results) {
+      data.results.forEach(item => {
+        const label =
+          item.label ||
+          item.name ||
+          item.nom ||
+          item.value ||
+          ''
+
+        /*if (
+          configImportGEOTREK.geotrekInstance[instance].trek_accessibility_level &&
+          configImportGEOTREK.geotrekInstance[instance].trek_accessibility_level[item.id]
+        ) {
+          this.trekAccessibilityLevels[item.id] =
+            configImportGEOTREK.geotrekInstance[instance].trek_accessibility_level[item.id]
+        } else if (
+          configImportGEOTREK.trek_accessibility_level &&
+          configImportGEOTREK.trek_accessibility_level[item.id]
+        ) {
+          this.trekAccessibilityLevels[item.id] =
+            configImportGEOTREK.trek_accessibility_level[item.id]
+        } else {*/
+          this.trekAccessibilityLevels[item.id] = label
+        //}
+      })
+    }
+  }
   
 
   async executeQuery(page, instanceGeo, instance)
@@ -238,7 +342,7 @@ class ImportGeotrekApi extends Import
         }
         if (config.debug && config.debug.logsFile) log.writeLog('before importDatas = ' + data.results.length)
 
-        await this.importDatas(data.results, instance, this.labels, this.difficulties)
+        await this.importDatas(data.results, instance, this.labels, this.difficulties, this.trekAccessibilities, this.trekAccessibilityLevels)
 
         if (config.debug && config.debug.seeData) console.log('Data = ', data)
 
@@ -255,7 +359,12 @@ class ImportGeotrekApi extends Import
           Object.keys(configImportGEOTREK.geotrekInstance[instance].structures).forEach(function (
             structure
           ) {
-            membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].memberId)
+            //membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].memberId)
+            if (process.env.NODE_ENV === 'production' || configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireIdCooking === undefined) {
+              membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireId)
+            } else {
+              membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireIdCooking)
+            }
           })
           console.log(chalk.green("Members To Import = ",membersToImport))
 
@@ -299,7 +408,7 @@ class ImportGeotrekApi extends Import
     })
   }
   
-  async importDatas(listElement, structure, labels, difficulties)
+  async importDatas(listElement, structure, labels, difficulties, trekAccessibilities, trekAccessibilityLevels)
   {
     if (config.debug && config.debug.logs)
       console.log(
@@ -378,6 +487,8 @@ class ImportGeotrekApi extends Import
         
         additionalInformation.labels = labels
         additionalInformation.difficulties = difficulties
+        additionalInformation.trekAccessibilities = trekAccessibilities
+        additionalInformation.trekAccessibilityLevels = trekAccessibilityLevels
 
         const proprietaireId =
           process.env.NODE_ENV === 'development' &&
@@ -429,7 +540,7 @@ class ImportGeotrekApi extends Import
         );
       }
       if (config.debug == undefined || config.debug.idGeo == 0) {
-        return await this.importDatas(listElement, structure, labels, difficulties)
+        return await this.importDatas(listElement, structure, labels, difficulties, trekAccessibilities, trekAccessibilityLevels)
       } else {
         return
       }

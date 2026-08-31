@@ -26,6 +26,7 @@ class Apidae
   constructor(entity)
   {
     this.productImage = null
+    this.productAdaptedTourismImage = null
     this.productMultimedia = null
     this.gpxData = null
     this.tokenPerMemberId = {}
@@ -133,7 +134,7 @@ class Apidae
         }
       };
   
-    //console.log('send for id =>', memberId, access.user, access.pass, 'tokenMember = ',me.tokenPerMemberId);
+    console.log('send for id =>', memberId, access.user, access.pass, 'tokenMember = ',me.tokenPerMemberId);
   
     if (me.tokenPerMemberId[memberId] && me.tokenPerMemberId[memberId].expire > now) {
       if (callback) {
@@ -450,21 +451,45 @@ class Apidae
   
     let PromiseRequestImage = Promise.method(() => {
       return new Promise((resolve, reject) => {
-        me.productImage = [];
+        me.productImage = []
   
         if (product.image && product.image.length) {
           me.__buildImageDetail(product.image.toObject(), 0, (err, newImage) => {
             if (err) {
-              console.error(err);
+              console.error(err)
             }
-            me.productImage = newImage;
-            resolve(product);
+            me.productImage = newImage
+            console.log('resolve PromiseRequestImage')
+            resolve(product)
           });
         } else {
-          resolve(product);
+                      console.log('resolve PromiseRequestImage end')
+
+          resolve(product)
         }
-      });
-    });
+      })
+    })
+
+    let PromiseRequestAdaptedTourismImage = Promise.method(() => {
+      return new Promise((resolve, reject) => {
+        me.productAdaptedTourismImage = []
+        console.log('product.imageAdaptedTourism.toObject >>', product.imageAdaptedTourism.toObject)
+        if (product.imageAdaptedTourism && product.imageAdaptedTourism.length) {
+          me.__buildImageDetail(product.imageAdaptedTourism.toObject(), 0, (err, newImage) => {
+            if (err) {
+              console.error(err)
+            }
+            me.productAdaptedTourismImage = newImage
+            console.log('resolve PromiseRequestAdaptedTourismImage')
+            resolve(product)
+          });
+        } else {
+                      console.log('resolve PromiseRequestAdaptedTourismImage end')
+
+          resolve(product)
+        }
+      })
+    })
 
     const PromiseRequestGpx = () => {
       me.gpxData = []
@@ -513,6 +538,7 @@ class Apidae
     }
 
     PromiseRequestImage()
+      .then(() => PromiseRequestAdaptedTourismImage())
       .then(() => PromiseRequestGpx())
       .then(() =>PromiseRequestFather())
       .then(async (product) => {
@@ -647,10 +673,13 @@ class Apidae
           rootFieldList = dataTmp.rootFieldList;
         }
   
-        // Image
-        dataTmp = me.__buildImage(product, root, rootFieldList);
+        dataTmp = me.__buildImage(product, root, rootFieldList, [
+          ...(me.productImage || []),
+          ...(me.productAdaptedTourismImage || [])
+        ])
+
         if (dataTmp) {
-          rootFieldList = dataTmp.rootFieldList;
+          rootFieldList = dataTmp.rootFieldList
         }
   
         // Multimedia
@@ -753,21 +782,47 @@ class Apidae
           formData.skipValidation = 'true';
         }
   
-        var attachmentData;
+        let attachmentData
+        let nIllustration = 1
+
+        console.log('>>>>>>>>>>me.productImage', me.productImage)
+
         if (me.productImage && me.productImage.length) {
-          var nImage;
-          for (nImage = 0; nImage < me.productImage.length; nImage++) {
+          for (let nImage = 0; nImage < me.productImage.length; nImage++) {
             attachmentData = me.productImage[nImage].data
               ? me.productImage[nImage].data
-              : null;
+              : null
+
             if (attachmentData && attachmentData.content) {
-              formData['multimedia.illustration-' + (nImage + 1)] = {
+              formData['multimedia.illustration-' + nIllustration] = {
                 value: attachmentData.content,
                 options: {
                   filename: attachmentData.filename,
                   contentType: attachmentData.contentType
                 }
-              };
+              }
+
+              nIllustration++
+            }
+          }
+        }
+
+        if (me.productAdaptedTourismImage && me.productAdaptedTourismImage.length) {
+          for (let nImage = 0; nImage < me.productAdaptedTourismImage.length; nImage++) {
+            attachmentData = me.productAdaptedTourismImage[nImage].data
+              ? me.productAdaptedTourismImage[nImage].data
+              : null
+
+            if (attachmentData && attachmentData.content) {
+              formData['multimedia.illustration-' + nIllustration] = {
+                value: attachmentData.content,
+                options: {
+                  filename: attachmentData.filename,
+                  contentType: attachmentData.contentType
+                }
+              }
+
+              nIllustration++
             }
           }
         }
@@ -830,16 +885,17 @@ class Apidae
             }
           },
           async function (err, httpResponse, body) {
-            //console.log(formData);
-            const statusCode = httpResponse?.statusCode;
-            const success = statusCode === 200;
+            //console.log(formData)
+            const statusCode = httpResponse?.statusCode
+            const success = statusCode === 200
             if (!success) {
-              console.log(chalk.red("##### L'export a échoué ! #####"));
+              console.log(chalk.red("##### L'export a échoué ! #####"))
+              if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE / ERR = ' + product.specialId + ' ' + product.specialIdSitra + ' statusCode = ' + statusCode + ' err = ' + body.message)
+            } else {
+              if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE = ' + product.specialId + ' ' + product.specialIdSitra + ' statusCode = ' + statusCode + ' err = ' + body.message)
             }
             console.log(body);
             console.log("****"+product.id);
-
-            if (config.debug && config.debug.logsFile) log.writeLog('REPONSE GEOTREK TO APIDAE = ' + product.specialId + ' ' + product.specialIdSitra)
 
             //console.log('FormData= ',formData);
             // si erreur http (pas pour une erreur apidae)
@@ -875,8 +931,6 @@ class Apidae
               }
             }
   
-            if (config.debug && config.debug.logsFile && product.specialId == '904168') log.writeLog('APIDAE REPONSE =', body)
-
             // Critères internes
             console.log('crit interne pour ', body.id, product.specialIdSitra)
             let specialIdSitraForCI = null
@@ -1353,13 +1407,42 @@ class Apidae
 
           if (itinerary.itineraireBalise && itinerary.itineraireBalise.length) {
             blockItinerary.itineraireBalise = product.itinerary.itineraireBalise
+
             fieldList.push(
               blockCategory + '.' + blockField + '.itineraireBalise'
             )
-            if (itinerary.precisionsBalisage) {
-              blockItinerary.precisionsBalisage = {
-                libelleFr: product.itinerary.precisionsBalisage
+
+            if (product.itinerary.precisionsBalisage) {
+              const langToLibelle = {
+                fr: 'libelleFr',
+                en: 'libelleEn',
+                es: 'libelleEs',
+                de: 'libelleDe',
+                nl: 'libelleNl',
+                it: 'libelleIt'
               }
+
+              const precisionsBalisage = product.itinerary.precisionsBalisage
+
+              blockItinerary.precisionsBalisage = Object.entries(langToLibelle).reduce(
+                (acc, [lang, libelleKey]) => {
+                  let value
+
+                  if (precisionsBalisage instanceof Map) {
+                    value = precisionsBalisage.get(lang)
+                  } else {
+                    value = precisionsBalisage[lang]
+                  }
+
+                  if (value) {
+                    acc[libelleKey] = value
+                  }
+
+                  return acc
+                },
+                {}
+              )
+
               fieldList.push(
                 blockCategory + '.' + blockField + '.precisionsBalisage'
               )
@@ -3529,59 +3612,43 @@ class Apidae
   }
   rootFieldList.push('prestations.conforts');
 
-/* TODO SPECIAL TREK*/
-  if (product.service && product.service.length) {
-    prestation.services = this.buildTypeKeyArray(
-      product.service,
-      null,
-      unwantedTypes,
-      context
-    );
-
-    // Accept animal
-    if (product.service.includes(687)) {
-      prestation.animauxAcceptes = 'ACCEPTES';
-    } else {
-      prestation.animauxAcceptes = 'NON_ACCEPTES';
-    }
-  }
-  rootFieldList.push('prestations.services');
-
   if (product.animauxAcceptes && product.animauxAcceptes === 'NON_ACCEPTES') {
-    prestation.animauxAcceptes = product.animauxAcceptes;
+    prestation.animauxAcceptes = product.animauxAcceptes
   }
-  rootFieldList.push('prestations.animauxAcceptes');
-/* TODO SPECIAL TREK*/
+  rootFieldList.push('prestations.animauxAcceptes')
 
-if (product.complementAccueil === 'reset') {
-  prestation.complementAccueil = {}
-  rootFieldList.push('prestations.complementAccueil')
-} else if (product.complementAccueil && product.complementAccueil.length) {
-  prestation.complementAccueil = {}
-  prestation.complementAccueil.libelleFr = product.complementAccueil
-  if (product.complementAccueilEn && product.complementAccueilEn.length) {
-    prestation.complementAccueil.libelleEn = product.complementAccueilEn;
+  if (product.complementAccueil === 'reset') {
+    prestation.complementAccueil = {}
+    rootFieldList.push('prestations.complementAccueil')
+  } else if (product.complementAccueil && product.complementAccueil.length) {
+    prestation.complementAccueil = {}
+    prestation.complementAccueil.libelleFr = product.complementAccueil
+    if (product.complementAccueilEn && product.complementAccueilEn.length) {
+      prestation.complementAccueil.libelleEn = product.complementAccueilEn;
+    }
+    if (product.complementAccueilEs && product.complementAccueilEs.length) {
+      prestation.complementAccueil.libelleEs = product.complementAccueilEs;
+    }
+    if (product.complementAccueilDe && product.complementAccueilDe.length) {
+      prestation.complementAccueil.libelleDe = product.complementAccueilDe
+    }
+    if (product.complementAccueilNl && product.complementAccueilNl.length) {
+      prestation.complementAccueil.libelleNl = product.complementAccueilNl
+    }
+    if (product.complementAccueilIt && product.complementAccueilIt.length) {
+      prestation.complementAccueil.libelleIt = product.complementAccueilIt
+    }
+    rootFieldList.push('prestations.complementAccueil')
   }
-  if (product.complementAccueilDe && product.complementAccueilDe.length) {
-    prestation.complementAccueil.libelleDe = product.complementAccueilDe
-  }
-  if (product.complementAccueilNl && product.complementAccueilNl.length) {
-    prestation.complementAccueil.libelleNl = product.complementAccueilNl
-  }
-  if (product.complementAccueilIt && product.complementAccueilIt.length) {
-    prestation.complementAccueil.libelleIt = product.complementAccueilIt
-  }
-  rootFieldList.push('prestations.complementAccueil')
-}
 
   if (product.adaptedTourism && product.adaptedTourism.length) {
     prestation.tourismesAdaptes = this.buildTypeKeyArray(
       product.adaptedTourism,
       null,
       unwantedTypes,
-      context
-    );
-    rootFieldList.push('prestations.tourismesAdaptes');
+      this
+    )
+    rootFieldList.push('prestations.tourismesAdaptes')
   }
 
   // ALERTE ! SPECIAL CASE !
@@ -3965,12 +4032,14 @@ if (product.complementAccueil === 'reset') {
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
 }
 
- __buildImage(product, root, rootFieldList) {
+ __buildImage(product, root, rootFieldList, field) {
   let arrImage = [],
     err = false;
 
-  if (this.productImage && this.productImage.length) {
-    _.forEach(this.productImage, function (imageData, nImage) {
+  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage: ' + field)
+
+  if (field && field.length) {
+    _.forEach(field, function (imageData, nImage) {
       let image = {},
         name = {},
         legend = {},
@@ -4071,6 +4140,7 @@ if (product.complementAccueil === 'reset') {
     err = true;
   }
   rootFieldList.push('illustrations');
+  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage illustrations: ' + arrImage)
 
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
 }
@@ -4573,6 +4643,7 @@ async __buildImageDetail(images, nImage = 0, callback, sizeImage = 2500) { ///* 
       contentType: ext === 'png' ? 'image/png' : 'image/jpeg',
       content: buffer
     }
+    //if (config.debug && config.debug.logsFile && config.debug && config.debug.logImages) log.writeLog('Image processing : ' + image.url + ' content = ' + buffer)
 
     if (config.debug && config.debug.logImages) console.log('__buildImageDetail ending > ',images[nImage].data)
 
