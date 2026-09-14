@@ -108,15 +108,18 @@ class ExportApidae
           console.log('Import products =', entities.length)
         }
 
-        if (process.env.NODE_ENV === 'production') {
-          entities = entities.filter(prod =>
-            options.membersToImport.includes(prod.member)
+        /*if (process.env.NODE_ENV === 'production') {
+          console.log('Option Member2Imp = ', options.membersToImport)
+          entities = entities.filter(prod => {
+            console.log('prod = ', prod.proprietaireId)
+            options.membersToImport.includes(prod.proprietaireId)
+            }
           )
 
           if (config.debug && config.debug.logs) {
             console.log('Import entities for instance =', entities.length)
           }
-        }
+        }*/
 
         const total = entities.length
         console.log(`${total} à exporter vers APIDAE`)

@@ -459,12 +459,9 @@ class Apidae
               console.error(err)
             }
             me.productImage = newImage
-            console.log('resolve PromiseRequestImage')
             resolve(product)
-          });
+          })
         } else {
-                      console.log('resolve PromiseRequestImage end')
-
           resolve(product)
         }
       })
@@ -473,8 +470,8 @@ class Apidae
     let PromiseRequestAdaptedTourismImage = Promise.method(() => {
       return new Promise((resolve, reject) => {
         me.productAdaptedTourismImage = []
-        console.log('product.imageAdaptedTourism.toObject >>', product.imageAdaptedTourism.toObject)
         if (product.imageAdaptedTourism && product.imageAdaptedTourism.length) {
+          console.log('product.imageAdaptedTourism.toObject >>', product.imageAdaptedTourism.toObject)
           me.__buildImageDetail(product.imageAdaptedTourism.toObject(), 0, (err, newImage) => {
             if (err) {
               console.error(err)
@@ -547,6 +544,8 @@ class Apidae
           type: product.type
         };
   
+        console.log('Product images = ', product.productImage)
+        console.log('AdaptedTourismImage = ', product.productAdaptedTourismImage)
         //console.time('Build');
   
         // Status (published, hidden...)
@@ -672,11 +671,15 @@ class Apidae
         if (dataTmp) {
           rootFieldList = dataTmp.rootFieldList;
         }
-  
+          console.log('Product images before build = ', me.productImage)
+
         dataTmp = me.__buildImage(product, root, rootFieldList, [
           ...(me.productImage || []),
           ...(me.productAdaptedTourismImage || [])
         ])
+
+        //console.log('Product images after build = ', product)
+
 
         if (dataTmp) {
           rootFieldList = dataTmp.rootFieldList
@@ -4140,7 +4143,7 @@ class Apidae
     err = true;
   }
   rootFieldList.push('illustrations');
-  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage illustrations: ' + arrImage)
+  if (config.debug && config.debug.logsFile) log.writeLog('Image __buildImage illustrations: ', arrImage)
 
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
 }
@@ -4604,6 +4607,7 @@ async __buildImageDetail(images, nImage = 0, callback, sizeImage = 2500) { ///* 
   const image = images[nImage]
 
   if (!image?.url) {
+    if (config.debug && config.debug.logImages) console.log('__buildImageDetail no url next')
     return this.__buildImageDetail(images, nImage + 1, callback)
   }
 
@@ -4612,6 +4616,7 @@ async __buildImageDetail(images, nImage = 0, callback, sizeImage = 2500) { ///* 
     
     // 404 / invalid redir / images HS > splice
     if (!buffer) {
+      if (config.debug && config.debug.logImages) console.log('__buildImageDetail no buffer next')
       images.splice(nImage, 1)
       return this.__buildImageDetail(images, nImage, callback)
     }
@@ -4662,9 +4667,16 @@ __fetchAndTransform(urlString, sizeImage, redirects = 0) {
 
     const url = new URL(urlString)
     const protocol = url.protocol === 'https:' ? https : http
-
-    const req = protocol.get(url, response => {
+    const options = {
+      headers: {
+        'User-Agent': 'curl/8.14.1',
+        'Accept': '*/*'
+      }
+    }
+    const req = protocol.get(url, options, response => {
       const { statusCode, headers } = response
+
+      console.log('Response __fetchAndTransform', url, statusCode, headers)
 
       // Redirection -> go new one
       if (statusCode >= 300 && statusCode < 400 && headers.location) {
