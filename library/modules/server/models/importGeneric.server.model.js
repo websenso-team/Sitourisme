@@ -359,9 +359,8 @@ class ImportGeotrekApi extends Import
           Object.keys(configImportGEOTREK.geotrekInstance[instance].structures).forEach(function (
             structure
           ) {
-            //membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].memberId)
             if (process.env.NODE_ENV === 'production' || configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireIdCooking === undefined) {
-              membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireId)
+              membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireId) // memberId
             } else {
               membersToImport.push(configImportGEOTREK.geotrekInstance[instance].structures[structure].proprietaireIdCooking)
             }
@@ -526,7 +525,7 @@ class ImportGeotrekApi extends Import
         product.rateCompletion = this.calculateRateCompletion(product);
 
         if (config.debug && config.debug.seeData) console.log(`GeoTrek API => import specialId : ${product.specialId}`, product)
-        if (config.debug && config.debug.logsFile) log.writeLog('IMPORT GEOTREK = ' + product.specialId + ' = ' + JSON.stringify(product))
+        if (config.debug && config.debug.logsFile) log.writeLog('IMPORT GEOTREK = ' + product.specialId)
 
         await this.doUpsertAsync(
           product,

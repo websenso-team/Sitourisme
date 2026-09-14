@@ -77,7 +77,7 @@ exports.geotrekInstance = {
         insee: '05061',
         specialIdSitra: '366196',
         statusImport: 2,
-        memberId : 4433, // to remove not used anymore
+        memberId : 4433,
         proprietaireId: 707,
         production: {
           syncTrek: true,

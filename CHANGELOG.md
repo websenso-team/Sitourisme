@@ -1,3 +1,7 @@
+## [2.6.1]
+- Ajout entête curl sur récupération des visuels, erreur 403 sur le Var
+- Fix process de détection des fiches en synchronisation courante
+
 ## [2.6.0]
 - Configuration - Ajout de la synchronisation des structures de Serre Chevalier et Terres de Gap
 - Amélioration du mapping des pratiques des itinéraires de rando [#144](https://github.com/GeotrekCE/Sitourisme/issues/144)
