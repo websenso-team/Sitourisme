@@ -4514,16 +4514,16 @@ class Apidae
   }
 
   // Add PDF
-  let arrMultimediaDataPdf = [];
+  let arrMultimediaDataPdf = []
   if (product.pdf && product.pdf.length) {
     _.forEach(product.pdf, function (multimediaPdf) {
       if (multimediaPdf.url) {
         arrMultimediaDataPdf.push({
           locale: 'fr',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
   if (product.pdfEn && product.pdfEn.length) {
     _.forEach(product.pdfEn, function (multimediaPdf) {
@@ -4531,9 +4531,9 @@ class Apidae
         arrMultimediaDataPdf.push({
           locale: 'en',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
   if (product.pdfEs && product.pdfEs.length) {
     _.forEach(product.pdfEs, function (multimediaPdf) {
@@ -4541,9 +4541,9 @@ class Apidae
         arrMultimediaDataPdf.push({
           locale: 'es',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
   if (product.pdfIt && product.pdfIt.length) {
     _.forEach(product.pdfIt, function (multimediaPdf) {
@@ -4551,9 +4551,9 @@ class Apidae
         arrMultimediaDataPdf.push({
           locale: 'it',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
   if (product.pdfDe && product.pdfDe.length) {
     _.forEach(product.pdfDe, function (multimediaPdf) {
@@ -4561,9 +4561,9 @@ class Apidae
         arrMultimediaDataPdf.push({
           locale: 'de',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
   if (product.pdfNl && product.pdfNl.length) {
     _.forEach(product.pdfNl, function (multimediaPdf) {
@@ -4571,18 +4571,29 @@ class Apidae
         arrMultimediaDataPdf.push({
           locale: 'nl',
           url: multimediaPdf.url
-        });
+        })
       }
-    });
+    })
   }
+  if (product.morePdfs && product.morePdfs.length) {
+    _.forEach(product.morePdfs, function (attachmentPdf) {
+      if (attachmentPdf.url) {
+        arrMultimediaDataPdf.push({
+          locale: 'fr',
+          url: attachmentPdf.url
+        })
+      }
+    })
+  }
+
   if (arrMultimediaDataPdf && arrMultimediaDataPdf.length) {
-    let multimediaPdf = {};
-    multimediaPdf.nom = {};
-    multimediaPdf.link = 'true';
-    multimediaPdf.type = 'DOCUMENT';
-    multimediaPdf.traductionFichiers = arrMultimediaDataPdf;
-    multimediaPdf.nom.libelleFr = 'PDF';
-    arrMultimedia.push(multimediaPdf);
+    let multimediaPdf = {}
+    multimediaPdf.nom = {}
+    multimediaPdf.link = 'true'
+    multimediaPdf.type = 'DOCUMENT'
+    multimediaPdf.traductionFichiers = arrMultimediaDataPdf
+    multimediaPdf.nom.libelleFr = 'PDF'
+    arrMultimedia.push(multimediaPdf)
   }
   
   if (arrMultimedia.length) {
