@@ -4515,6 +4515,8 @@ class Apidae
 
   // Add PDF
   let arrMultimediaDataPdf = []
+  let arrMultimediaDataPdf2 = []
+
   if (product.pdf && product.pdf.length) {
     _.forEach(product.pdf, function (multimediaPdf) {
       if (multimediaPdf.url) {
@@ -4578,7 +4580,7 @@ class Apidae
   if (product.morePdfs && product.morePdfs.length) {
     _.forEach(product.morePdfs, function (attachmentPdf) {
       if (attachmentPdf.url) {
-        arrMultimediaDataPdf.push({
+        arrMultimediaDataPdf2.push({
           locale: 'fr',
           url: attachmentPdf.url
         })
@@ -4595,12 +4597,23 @@ class Apidae
     multimediaPdf.nom.libelleFr = 'PDF'
     arrMultimedia.push(multimediaPdf)
   }
+
+  if (arrMultimediaDataPdf2 && arrMultimediaDataPdf2.length) {
+    let multimediaPdf = {}
+    multimediaPdf.nom = {}
+    multimediaPdf.link = 'true'
+    multimediaPdf.type = 'DOCUMENT'
+    multimediaPdf.traductionFichiers = arrMultimediaDataPdf2
+    multimediaPdf.nom.libelleFr = 'PDF'
+    arrMultimedia.push(multimediaPdf)
+  }
   
   if (arrMultimedia.length) {
     root.multimedias = arrMultimedia;
   } else {
     err = true;
   }
+  
   rootFieldList.push('multimedias');
 
   return !err ? { root: root, rootFieldList: rootFieldList } : false;
